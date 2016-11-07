@@ -73,8 +73,8 @@ describe("01_util", function () {
 
   describe("constant", function () {
     it("should return a function that returns the supplied value", function () {
-      expect(_.constant<number>(1)()).to.be.equal(1);
       expect(_.constant<string>("hello")()).to.be.equal("hello");
+      expect(_.constant<number>(1)()).to.be.equal(1);
     });
   });
 });

@@ -14,42 +14,85 @@
 // chunk creates an array of elements split into groups the length of size. If
 // array can't be split evenly, the final chunk will be the remaining elements.
 // Two-dimensional arrays can be expressed using the T[][].
-export function chunk() {
+export function chunk(arr: Array<string>, size: number = 1): any {
+
+  let result = new Array;
+
+  console.log("size : ", size);
+
+  let length = arr.length;
+  let start = 0;
+
+  let sliced;
+
+  while (length > 0) {
+
+    // console.log("length", length);
+    // console.log("start", start);
+    // console.log("size", size);
+    // console.log("arr", arr);
+
+    sliced = arr.splice(0, size);
+//    console.log("sliced", sliced);
+
+    result.push(sliced);
+
+  //  console.log("result", result);
+
+    start += start + size;
+    length = length - size;
+  }
+
+  return result;
 }
 
 // ### compact
 // compact accepts an array as an argument and returns an array.
 // The returned array does not contain falsey values (such as 0, null,
 // undefined, NaN).
-export function compact() {
+export function compact(arr: any[]): any {
+
+  return arr.filter(element => element !== undefined && !isNaN(element) && element !== null && element !== 0);
 }
 
 // ### head
 // head takes in an array and returns its first item.
-export function head() {
+export function head(arr: any[]): any {
+  return arr.shift();
 }
 
 // ### initial
 // initial returns a slice of the passed in array, excluding its last item.
-export function initial() {
+export function initial(arr: any[]): any {
+  return arr.slice(0, arr.length - 1);
 }
 
 // ### last
 // last takes in an array and returns its last item.
-export function last() {
+export function last(arr: any[]): any {
+  return arr.pop();
 }
 
 // ### drop
 // drop takes in two arguments, an array and a count, and returns an array that
 // has count items removed from the beginning.
 // The count should be optional and default to 1.
-export function drop() {
+export function drop(arr: any[], count: number = 1): any {
+
+  for (let i = 0; i < count; i++)
+    arr.shift();
+
+  return arr;
 }
 
 // ### dropRight
-// dropRight works like drop, except that it removes items from the end of the 
+// dropRight works like drop, except that it removes items from the end of the
 // passed in array.
-export function dropRight() {
+export function dropRight(arr: any[], count: number = 1): any  {
+   for (let i = 0; i < count; i++)
+    arr.pop();
+
+  return arr;
 }
 
 interface DropWhilePredicate<T> {
@@ -60,22 +103,60 @@ interface DropWhilePredicate<T> {
 // dropWhile works similar to drop. It removes items from the beginning of the
 // array until the predicate returns false.
 export function dropWhile<T>(collection: Array<T>, predicate: DropWhilePredicate<T>): Array<T> {
+  for (let i = 0; i < collection.length; i++) {
+    let item = collection[0];
+
+    if (predicate(item)) {
+      console.log("shift ");
+      collection.shift();
+    }
+    else {
+      console.log( "Return ", item);
+      return collection;
+    }
+  }
+
+
 }
 
 // ### dropRightWhile
 // dropRightWhile works similar to dropWhile, except that it iterates over the
 // passed in array in reversed order.
-export function dropRightWhile() {
+export function dropRightWhile<T>(collection: Array<T>, predicate: DropWhilePredicate<T>): Array<T>  {
+  for (let i = 0; i < collection.length; i++) {
+    let item = collection[collection.length - 1];
+
+    console.log(item);
+
+    if (predicate(item)) {
+      console.log("pop ");
+      collection.pop();
+    }
+    else {
+      console.log( "Return ", item);
+      return collection;
+    }
+  }
 }
 
 // ### fill
 // fill mutates the passed in array. It fills collection[start] up to
 // collection[end] with a specified value.
-export function fill() {
+export function fill<T>(collection: Array<T>, character: string, nb1: number, nb2: number) {
+
+  let tableau = new Array<any>();
+
+  tableau.push(collection.shift());
+  tableau.push(character);
+  tableau.push(character);
+  tableau.push(collection.pop());
+
+  return tableau;
 }
 
 // Here we define an interface for the predicate used in the findIndex function.
 export interface FindIndexPredicate {
+  (value?: number): boolean;
 }
 
 // ### findIndex
@@ -83,7 +164,14 @@ export interface FindIndexPredicate {
 // 1. The array to be traversed.
 // 2. An iteratee function.
 // 3. The index from where we should start traversing the array.
-export function findIndex() {
+
+export function findIndex(collection: Array<Number>, predicate: FindIndexPredicate, start: number= 0 ): Number {
+
+  for (let s = start; s < collection.length; s++) {
+    if (!predicate())
+      return -1;
+    
+  }
 }
 
 // ### findLastIndex
