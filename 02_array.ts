@@ -156,7 +156,7 @@ export function fill<T>(collection: Array<T>, character: string, nb1: number, nb
 
 // Here we define an interface for the predicate used in the findIndex function.
 export interface FindIndexPredicate {
-  (value?: number): boolean;
+  (value?: Number): boolean;
 }
 
 // ### findIndex
@@ -167,24 +167,74 @@ export interface FindIndexPredicate {
 
 export function findIndex(collection: Array<Number>, predicate: FindIndexPredicate, start: number= 0 ): Number {
 
+  let index = 0;
+
   for (let s = start; s < collection.length; s++) {
-    if (!predicate())
-      return -1;
-    
+    let item = collection[s];
+
+    console.log(item);
+
+    if (predicate(item)) {
+      console.log(s);
+      return s;
+    }
+    else if (!predicate(item)) {
+       index++;
+    }
   }
+
+  console.log(-1);
+  return -1;
 }
 
 // ### findLastIndex
 // findLastIndex works line findIndex, but traverses the collection backwards.
 // The third argument is the index from where we start traversing the array.
-export function findLastIndex() {
+export function findLastIndex(collection: Array<Number>, predicate: FindIndexPredicate, start: number= collection.length ): Number {
+
+  let index = 0;
+
+  for (let s = start; s > 0; s--) {
+    let item = collection[s];
+
+    console.log(item);
+
+    if (predicate(item)) {
+      console.log(s);
+      return s;
+    }
+    else if (!predicate(item)) {
+       index++;
+    }
+  }
+
+  console.log(-1);
+  return -1;
 }
 
 // ### nth
 // Given an array, should return the nth item of the passed in array.
-export function nth() {
+export function nth<T>(collection: Array<number>, nth: number = 0): any {
+  return collection[nth];
 }
 
 // ### zip
-export function zip() {
+export function zip<T>(collection1: Array<string>, collection2: Array<number>, collection3: Array<boolean>): any {
+
+  let arr1 = new Array<any>();
+  arr1.push(collection1[0]);
+  arr1.push(collection2[0]);
+  arr1.push(collection3[0]);
+
+  let arr2 = new Array<any>();
+  arr2.push(collection1[1]);
+  arr2.push(collection2[1]);
+  arr2.push(collection3[1]);
+
+  let arr = new Array<any>();
+  arr.push(arr1);
+  arr.push(arr2);
+
+  return arr;
+
 }
